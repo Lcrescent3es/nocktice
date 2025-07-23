@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+       http://www.springframework.org/schema/data/jpa https://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+    <!-- Service, Repository 등 전역 Bean 스캔 -->
+    <!-- 컴포넌트 스캔 범위를 나눈 이유:
+    1. 책임 분리, 의존성 관리, 애플리케이션 아키텍처 정리를 위한 구조적인 설계
+     여기는 전역 설정 / 비즈니스 로직 관련 빈 등록 (Business Layer)
+     servlet-context.xml은 웹 관련 설정 / 프레젠테이션 계층 설정 (Presentation Layer)
+    2. 그리고 웹 서버 없어도 Service, Repository 테스트가 가능함
+     @ContextConfiguration(classes = AppConfig.class)와 같이 로딩 범위를 제한 가능
+    3. DispatcherServlet이 관리하는 영역 제한
+     전역 컨텍스트에서 DB, 서비스 계층 등이 로딩되어야 함
+      -->
+    <jpa:repositories base-package="com.nocktice.nocktice.home.repository" />
+    <context:component-scan base-package="com.nocktice.nocktice.home.service" />
+
+    <!-- DB 설정, 트랜잭션, JPA 등은 추후 여기에 추가 -->
+    <!-- 트랜잭션 매니저 설정 (예: JPA) -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager" />
+
+    <!-- MySQL -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/nocktice?useSSL=false&amp;serverTimezone=Asia/Seoul&amp;characterEncoding=utf8" />
+        <property name="username" value="root" />
+        <property name="password" value="bephbln1215" />
+    </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="com.nocktice.nocktice.home.entity, com.nocktice.nocktice.alarm.entity, com.nocktice.nocktice.user.entity"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+        </property>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+    </bean>
+</beans>
