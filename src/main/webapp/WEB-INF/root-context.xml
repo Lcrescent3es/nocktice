@@ -20,8 +20,11 @@
     3. DispatcherServlet이 관리하는 영역 제한
      전역 컨텍스트에서 DB, 서비스 계층 등이 로딩되어야 함
       -->
-    <jpa:repositories base-package="com.nocktice.nocktice.home.repository" />
-    <context:component-scan base-package="com.nocktice.nocktice.home.service" />
+
+    <context:component-scan base-package="com.nocktice.nocktice">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    <jpa:repositories base-package="com.nocktice.nocktice"/>
 
     <!-- DB 설정, 트랜잭션, JPA 등은 추후 여기에 추가 -->
     <!-- 트랜잭션 매니저 설정 (예: JPA) -->
@@ -29,7 +32,7 @@
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
 
-    <tx:annotation-driven transaction-manager="transactionManager" />
+    <tx:annotation-driven/>
 
     <!-- MySQL -->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">

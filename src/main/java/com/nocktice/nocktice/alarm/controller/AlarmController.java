@@ -4,6 +4,7 @@ import com.nocktice.nocktice.alarm.dto.AlarmRequestDto;
 import com.nocktice.nocktice.alarm.service.AlarmService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,11 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/alarm")
+@AllArgsConstructor
 public class AlarmController {
     private final AlarmService alarmService;
 
-    public AlarmController(AlarmService alarmService) {
-        this.alarmService = alarmService;
+    @GetMapping("/")
+    public String alarm(Model model) {
+        return "index";
     }
 
     @PostMapping("/register")

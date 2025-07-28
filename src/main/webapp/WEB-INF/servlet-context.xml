@@ -23,6 +23,9 @@
 
     <!-- 프로젝트 패키지이름 확인 -->
     <!-- Controller 클래스 스캔 (Web 계층만) -->
-    <context:component-scan base-package="com.nocktice.nocktice.home.controller" />
+    <context:component-scan base-package="com.nocktice.nocktice"
+                            use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
 
 </beans:beans>
