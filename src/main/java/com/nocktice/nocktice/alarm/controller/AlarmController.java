@@ -17,7 +17,7 @@ public class AlarmController {
     private final AlarmService alarmService;
 
     @GetMapping("/")
-    public String alarm(Model model) {
+    public String alarmIndex() {
         return "index";
     }
 
