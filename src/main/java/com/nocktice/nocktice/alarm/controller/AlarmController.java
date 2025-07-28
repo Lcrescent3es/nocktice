@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/alarm")
+@AllArgsConstructor
 public class AlarmController {
     private final AlarmService alarmService;
 
-    public AlarmController(AlarmService alarmService) {
-        this.alarmService = alarmService;
+    @GetMapping("/")
+    public String alarmIndex() {
+        return "index";
     }
 
     @PostMapping("/register")
