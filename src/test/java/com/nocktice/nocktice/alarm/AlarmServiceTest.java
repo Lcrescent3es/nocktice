@@ -17,6 +17,7 @@ public class AlarmServiceTest {
     @DisplayName("Test successfully initiated")
     public void test() {
         assertEquals(2, 1+1, "1+1은 2입니다.");
+        log.error("ERROR log");
         log.trace("TRACE log");
         testLogger.trace("TRACE log");
     }
