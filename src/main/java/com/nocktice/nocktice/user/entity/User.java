@@ -19,6 +19,8 @@ public class User {
     private String password;
     private String email;
 
+    // TODO: 인증 도입 후 Alarm - OneToMany 관계 선언
+
     @Column(name = "security_strategy")
     private SecurityStrategies securityStrategy;
 
