@@ -1,5 +1,6 @@
 package com.nocktice.nocktice.alarm.entity;
 
+import com.nocktice.nocktice.alarm.dto.AlarmRequestDto;
 import com.nocktice.nocktice.common.support.SecurityStrategies;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -58,5 +59,17 @@ public class Alarm {
         alarm.setTime(time);
         alarm.setStatus(Status.PENDING);
         return alarm;
+    }
+
+    public Alarm update(AlarmRequestDto dto) {
+        if (dto.getTime().isBefore(LocalDateTime.now())) {
+            // TODO: 전역 예외처리
+            throw new IllegalArgumentException("알람 시간은 현재보다 미래여야 합니다.");
+        }
+        this.setTitle(dto.getTitle());
+        this.setContent(dto.getContent());
+        this.setTime(dto.getTime());
+        this.setStatus(Status.PENDING);
+        return this;
     }
 }

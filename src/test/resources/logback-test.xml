@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configuration>
 
-<configuration debug="true" scan="true">
+<configuration scan="true">
     <import class="ch.qos.logback.classic.encoder.PatternLayoutEncoder"/>
     <import class="ch.qos.logback.core.ConsoleAppender"/>
     <import class="ch.qos.logback.core.FileAppender"/>
-    <import class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
+<!--    <import class="ch.qos.logback.core.status.OnConsoleStatusListener"/>-->
     <!--    configuration debug="true" 옵션과 동일함-->
 
     <!-- statusListener는 선언한 이후의 상태부터 읽을 수 있으니 최상단에 선언 -->
-    <statusListener class="OnConsoleStatusListener"/>
+<!--    <statusListener class="OnConsoleStatusListener"/>-->
 
     <appender name="STDOUT" class="ConsoleAppender">
         <encoder class="PatternLayoutEncoder">
